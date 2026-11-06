@@ -1,13 +1,38 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-void main() {
-    //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-    // to see how IntelliJ IDEA suggests fixing it.
-    IO.println(String.format("Hello and welcome!"));
+import elements.Exercise;
+import elements.StrengthExercise;
+import elements.CardioExercise;
+import visitors.CalorieCalculatorVisitor;
+import visitors.WorkoutReportVisitor;
 
-    for (int i = 1; i <= 5; i++) {
-        //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-        // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-        IO.println("i = " + i);
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+
+        List<Exercise> exercises = new ArrayList<>();
+
+        exercises.add(new StrengthExercise("Bench Press", 80, 10));
+        exercises.add(new CardioExercise("Running", 30, 5.0));
+        exercises.add(new StrengthExercise("Squats", 60, 12));
+        exercises.add(new CardioExercise("Cycling", 40, 12.0));
+
+        System.out.println("=== CALORIE CALCULATOR ===");
+
+        CalorieCalculatorVisitor calorieVisitor =
+                new CalorieCalculatorVisitor();
+
+        for (Exercise exercise : exercises) {
+            exercise.accept(calorieVisitor);
+        }
+
+        System.out.println("\n=== WORKOUT REPORT ===");
+
+        WorkoutReportVisitor reportVisitor =
+                new WorkoutReportVisitor();
+
+        for (Exercise exercise : exercises) {
+            exercise.accept(reportVisitor);
+        }
     }
 }
